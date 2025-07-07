@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Invoice</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #eee;
+    }
+    h1 {
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>{{ data['company'] }}</h1>
+  <p>Invoice for: <strong>{{ data['client'] }}</strong></p>
+  <p>Invoice ID: {{ invoice_id }}</p>
+
+  <table>
+    <thead>
+      <tr><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr>
+    </thead>
+    <tbody>
+      {% set total = 0 %}
+      {% for item in items %}
+        {% set line_total = item.qty * item.price %}
+        {% set total = total + line_total %}
+        <tr>
+          <td>{{ item.name }}</td>
+          <td>{{ item.qty }}</td>
+          <td>{{ "%.2f"|format(item.price) }}</td>
+          <td>{{ "%.2f"|format(line_total) }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="3"><strong>Total</strong></td>
+        <td><strong>{{ "%.2f"|format(total) }}</strong></td>
+      </tr>
+    </tfoot>
+  </table>
+</body>
+</html>
